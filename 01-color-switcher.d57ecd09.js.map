@@ -1,1 +1,0 @@
-{"version":3,"sources":["js/01-color-switcher.js"],"names":["startBtn","document","querySelector","stopBtn"],"mappings":";AACA,MAAMA,EAAWC,SAASC,cAAc,gBAClCC,EAAUF,SAASC,cAAc","file":"01-color-switcher.d57ecd09.js","sourceRoot":"../src","sourcesContent":["\nconst startBtn = document.querySelector(\"[data-start]\");\nconst stopBtn = document.querySelector(\"[data-stop]\");\n"]}
