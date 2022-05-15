@@ -1,13 +1,17 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import Notiflix from 'notiflix';
-// ==================delite!!!!!!===================
-const stopBtn = document.querySelector('.stop');
-stopBtn.addEventListener("click", () => {
-    clearInterval(timerId);
-    console.log(`Interval with id ${timerId} has stopped!`);
-})
-// =====================
+
+// ================== add stopBtn )) ===================
+// const stopBtn = document.querySelector('.stop-button');
+// stopBtn.addEventListener("click", () => {
+//     clearInterval(timer.intervalId);
+//     startBtn.disabled = false;
+//     timer.isActive = false;
+
+//     console.log(`Interval with id ${timer} has stopped!`);
+// })
+// =====================================================
 const date = new Date();
 const input = document.querySelector('input');
 const startBtn = document.querySelector('button');
@@ -21,38 +25,53 @@ const options = {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
-        if (selectDate.selectedDates[0] > date) {
-            startBtn.disabled = false;
-            startBtn.removeAttribute('disabled');
+        if (timer.isActive === false) {
+            if (selectDate.selectedDates[0] > date) {
+                startBtn.disabled = false;
+            }
+            else {
+                startBtn.disabled = true;
+                window.alert("Please choose a date in the future");
+            };
+        } else { 
+            window.alert("The timer is already running, please reload the page to select a new date");
         }
-        else {
-            startBtn.disabled = true;
-            window.alert("Please choose a date in the future");
-        };
     }
-};
+};    
+
 const selectDate = flatpickr(input, options);
-let timerId = null;
+const timer = {
+    intervalId: null,
+    isActive: false,
+    start() { 
+        if (this.isActive) { 
+            return;
+        }
+        this.isActive = true;
+        this.intervalId = setInterval(() => {
+            const now = Date.now();
+            const selectedDate = Date.parse(selectDate.selectedDates[0]);
+            const leftUntil = selectedDate - now;
+            if (leftUntil > 0) {
+                const { days, hours, minutes, seconds } = convertMs(leftUntil);
+                console.log(`${days}::${hours}:${minutes}:${seconds}`);
+                dataHours.textContent = `${hours}`;
+                dataDays.textContent = `${days}`;
+                dataMinutes.textContent = `${minutes}`;
+                dataSeconds.textContent = `${seconds}`;
+            } else { 
+                clearInterval(this.intervalId);
+            }
+        }, 1000);
+    },
+};
 
 startBtn.setAttribute('disabled', true);
 startBtn.addEventListener('click', onStartBtn);
 
 function onStartBtn() {
     startBtn.setAttribute('disabled', true);
-    if (timerId >= 0) {
-        timerId = setInterval(() => {
-            let now = Date.now();
-            const leftUntil = Date.parse(selectDate.selectedDates[0]) - now;
-            const { days, hours, minutes, seconds } = convertMs(leftUntil);
-            console.log(`${days}::${hours}:${minutes}:${seconds}`);
-            dataHours.textContent = `${hours}`;
-            dataDays.textContent = `${days}`;
-            dataMinutes.textContent = `${minutes}`;
-            dataSeconds.textContent = `${seconds}`;
-        }, 1000);
-    } else { 
-        clearInterval(timerId);
-    };
+    timer.start();
 };    
 
 function pad(value) { 
