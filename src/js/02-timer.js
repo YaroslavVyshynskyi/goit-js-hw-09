@@ -13,7 +13,7 @@ import Notiflix from 'notiflix';
 // })
 // =====================================================
 const date = new Date();
-const input = document.querySelector('input');
+const input = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('button');
 const dataDays = document.querySelector('[data-days]');
 const dataHours = document.querySelector('[data-hours]');
@@ -34,7 +34,9 @@ const options = {
                 Notiflix.Notify.failure("Please choose a date in the future");
             };
         } else { 
-            Notiflix.Notify.warning("The timer is already running, please reload the page to select a new date");
+            options.clickOpens = false;
+            Notiflix.Notify.warning("The timer is already running, please reload the page to select a new date");  
+            
         }
     }
 };    
@@ -71,6 +73,7 @@ startBtn.addEventListener('click', onStartBtn);
 
 function onStartBtn() {
     startBtn.setAttribute('disabled', true);
+    input.setAttribute('disabled', true);
     timer.start();
 };    
 
