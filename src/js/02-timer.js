@@ -24,6 +24,7 @@ const options = {
     time_24hr: true,
     defaultDate: new Date(),
     minuteIncrement: 1,
+    // clickOpens: false,
     onClose(selectedDates) {
         if (timer.isActive === false) {
             if (selectDate.selectedDates[0] > date) {
@@ -34,7 +35,8 @@ const options = {
                 Notiflix.Notify.failure("Please choose a date in the future");
             };
         } else { 
-            options.clickOpens = false;
+            // console.log(options.clickOpens);
+            // options.clickOpens = false;
             Notiflix.Notify.warning("The timer is already running, please reload the page to select a new date");  
             
         }
