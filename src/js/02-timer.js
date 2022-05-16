@@ -31,10 +31,10 @@ const options = {
             }
             else {
                 startBtn.disabled = true;
-                window.alert("Please choose a date in the future");
+                Notiflix.Notify.failure("Please choose a date in the future");
             };
         } else { 
-            window.alert("The timer is already running, please reload the page to select a new date");
+            Notiflix.Notify.warning("The timer is already running, please reload the page to select a new date");
         }
     }
 };    
@@ -95,11 +95,6 @@ function convertMs(ms) {
 
     return { days, hours, minutes, seconds };
 
-    // const days = pad(Math.floor((time % (1000 * 60 * 60 * 24 * 24)) / (1000 * 60 * 60 * 24)));
-    // const hours = pad(Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-    // const minutes = pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
-    // const seconds = pad(Math.floor((time % (1000 * 60)) / 1000));
-    // return { days, hours, mins, secs };
 };
 
 
