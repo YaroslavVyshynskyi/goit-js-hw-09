@@ -11,16 +11,17 @@ function getRandomHexColor() {
 }
 
 function onStartBtn() {
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
     
     backGround = setInterval(() => {
-        startBtn.disabled = true;
-        stopBtn.disabled = false;
         body.style.backgroundColor = getRandomHexColor()
     }, 1000);
 }
 
 function onStopBtn() { 
     clearInterval(backGround);
+    
     stopBtn.disabled = true;
     startBtn.disabled = false;
 }
