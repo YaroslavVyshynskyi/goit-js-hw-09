@@ -1,43 +1,43 @@
 import Notiflix from 'notiflix';
 
-const inputDelay = document.querySelector("input[name=delay]");
-const inputStep = document.querySelector("input[name=step]");
-const inputAmount = document.querySelector("input[name=amount]");
-const submitBtn = document.querySelector("button");
+const form = document.querySelector(".form");
 
-submitBtn.addEventListener('click', onSubmitBtn);
+form.addEventListener('submit', onSubmitBtn);
 
 function onSubmitBtn(event) {
   event.preventDefault();
-  const startDelay = Number(inputDelay.value);
-  const stepDelay = Number(inputStep.value);
-  const amount = Number(inputAmount.value);
-  let delay = startDelay - stepDelay;
-  for (let i = 0; i < amount; i++) {
+
+  const {
+    elements: { delay, step, amount }
+  } = event.currentTarget;
+
+  let totalDelay = Number(delay.value) - Number(step.value);
+  
+  for (let i = 0; i < amount.value; i++) {
     const position = i + 1;
-    delay = delay + stepDelay;
-    createPromise(position, delay);
+    totalDelay = totalDelay + Number(step.value);
+    createPromise(position, totalDelay);
   }   
 }
 
-function createPromise(position, delay) {
+function createPromise(position, totalDelay) {
   
   const promise = new Promise((resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
     setTimeout(() => {
       if (shouldResolve) {
-        resolve({ position, delay });
+        resolve({ position, totalDelay });
       } else {
-        reject({ position, delay });
+        reject({ position, totalDelay });
       }
-    }, delay);
+    }, totalDelay);
   });
 
   promise
-    .then(({ position, delay }) => {
-      Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+    .then(({ position, totalDelay }) => {
+      Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${totalDelay}ms`);
     })
-    .catch(({ position, delay }) => {
-      Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+    .catch(({ position, totalDelay }) => {
+      Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${totalDelay}ms`);
     });
 }
